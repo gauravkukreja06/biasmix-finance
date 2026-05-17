@@ -1,0 +1,17 @@
+ticker,name,sector,expense_ratio,volatility_est,as_of
+SPY,SPDR S&P 500 ETF Trust,broad_us,0.0009,0.16,2025-09-30
+VEA,Vanguard FTSE Developed Markets ETF,dev_ex_us,0.0005,0.14,2025-09-30
+VWO,Vanguard FTSE Emerging Markets ETF,em,0.0008,0.2,2025-09-30
+VGT,Vanguard Information Technology ETF,tech,0.001,0.22,2025-09-30
+XLE,Energy Select Sector SPDR Fund,energy,0.0009,0.25,2025-09-30
+XLF,Financial Select Sector SPDR Fund,financials,0.0009,0.2,2025-09-30
+XLV,Health Care Select Sector SPDR Fund,healthcare,0.0009,0.14,2025-09-30
+XLY,Consumer Discretionary Select Sector SPDR Fund,consumer_discretionary,0.0009,0.19,2025-09-30
+XLP,Consumer Staples Select Sector SPDR Fund,consumer_staples,0.0009,0.12,2025-09-30
+XLI,Industrial Select Sector SPDR Fund,industrials,0.0009,0.16,2025-09-30
+XLRE,Real Estate Select Sector SPDR Fund,real_estate,0.0009,0.18,2025-09-30
+IWM,iShares Russell 2000 ETF,small_cap,0.0019,0.22,2025-09-30
+AGG,iShares Core U.S. Aggregate Bond ETF,aggregate_bonds,0.0004,0.05,2025-09-30
+LQD,iShares iBoxx Investment Grade Corporate Bond ETF,ig_corporate_bonds,0.0015,0.08,2025-09-30
+IEF,iShares 7-10 Year Treasury Bond ETF,treasury_7_10y,0.0005,0.06,2025-09-30
+GLD,SPDR Gold Shares,gold,0.0004,0.17,2025-09-30

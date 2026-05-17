@@ -1,0 +1,27 @@
+tickers:
+- SPY
+- VEA
+- VWO
+- VGT
+- XLE
+- XLF
+- XLV
+- XLY
+- XLP
+- XLI
+- XLRE
+- IWM
+- AGG
+- LQD
+- IEF
+- GLD
+as_of: '2025-09-30'
+covariance_method: "Synthetic nearest-PSD correlation (realistic targets) \xD7 annual\
+  \ vol"
+targets:
+  equity_equity_mean: 0.55
+  bond_bond_mean: 0.35
+  equity_bond_mean: -0.15
+  gold_equity_mean: 0.05
+  gold_bond_mean: 0.1
+generated_at: '2025-11-10T05:46:05'

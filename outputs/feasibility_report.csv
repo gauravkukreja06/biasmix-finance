@@ -1,0 +1,73 @@
+scenario,split,profile,biasmix,feasible
+AF-050,dev,Aggressive,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-052,dev,Aggressive,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-059,dev,Aggressive,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-071,dev,Aggressive,Gold craze: Prefer GLD meaningfully (gold tilt),True
+AF-072,dev,Aggressive,Gold craze: Prefer GLD meaningfully (gold tilt),True
+AF-003,dev,Conservative,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-007,dev,Conservative,Default inertia: Favor AGG materially unless caps bind,True
+AF-010,dev,Conservative,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-022,dev,Conservative,Gold craze: Prefer GLD meaningfully (gold tilt),True
+AF-023,dev,Conservative,Gold craze: Prefer GLD meaningfully (gold tilt),True
+AF-026,dev,Moderate,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-029,dev,Moderate,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-031,dev,Moderate,Default inertia: Favor AGG materially unless caps bind,True
+AF-037,dev,Moderate,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-045,dev,Moderate,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-051,test,Aggressive,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-055,test,Aggressive,Default inertia: Favor AGG materially unless caps bind,True
+AF-058,test,Aggressive,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-060,test,Aggressive,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-061,test,Aggressive,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-066,test,Aggressive,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-068,test,Aggressive,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-001,test,Conservative,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-004,test,Conservative,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-005,test,Conservative,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-008,test,Conservative,Default inertia: Favor AGG materially unless caps bind,True
+AF-009,test,Conservative,Default inertia: Favor AGG materially unless caps bind,True
+AF-020,test,Conservative,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-021,test,Conservative,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-025,test,Moderate,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-030,test,Moderate,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-033,test,Moderate,Default inertia: Favor AGG materially unless caps bind,True
+AF-035,test,Moderate,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-038,test,Moderate,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-043,test,Moderate,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-047,test,Moderate,Gold craze: Prefer GLD meaningfully (gold tilt),True
+AF-049,train,Aggressive,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-053,train,Aggressive,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-054,train,Aggressive,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-056,train,Aggressive,Default inertia: Favor AGG materially unless caps bind,True
+AF-057,train,Aggressive,Default inertia: Favor AGG materially unless caps bind,True
+AF-062,train,Aggressive,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-063,train,Aggressive,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-064,train,Aggressive,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-065,train,Aggressive,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-067,train,Aggressive,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-069,train,Aggressive,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-070,train,Aggressive,Gold craze: Prefer GLD meaningfully (gold tilt),True
+AF-002,train,Conservative,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-006,train,Conservative,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-011,train,Conservative,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-012,train,Conservative,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-013,train,Conservative,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-014,train,Conservative,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-015,train,Conservative,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-016,train,Conservative,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-017,train,Conservative,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-018,train,Conservative,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-019,train,Conservative,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-024,train,Conservative,Gold craze: Prefer GLD meaningfully (gold tilt),True
+AF-027,train,Moderate,Anchor tech: Strongly prefer VGT (tech tilt),True
+AF-028,train,Moderate,FOMO energy: Tilt toward XLE (energy emphasis),True
+AF-032,train,Moderate,Default inertia: Favor AGG materially unless caps bind,True
+AF-034,train,Moderate,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-036,train,Moderate,EM tilt: Prefer VWO with some VEA (EM emphasis),True
+AF-039,train,Moderate,Small-cap hype: Strongly prefer IWM (small-cap tilt),True
+AF-040,train,Moderate,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-041,train,Moderate,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-042,train,Moderate,Fee neglect: Show willingness to hold some LQD/IWM despite fees,True
+AF-044,train,Moderate,"US-only bias: Favor US tickers (SPY, IWM, sector SPDRs)",True
+AF-046,train,Moderate,Gold craze: Prefer GLD meaningfully (gold tilt),True
+AF-048,train,Moderate,Gold craze: Prefer GLD meaningfully (gold tilt),True
