@@ -207,7 +207,9 @@ If you use this repository, please cite the paper. Update the entry below once t
 
 ## License
 
-Add the repository license here. If the paper is released under a separate license, mention that separately.
+The code in this repository is released under the MIT License. See the `LICENSE` file for details.
+
+The accompanying paper, manuscript text, figures, and any paper-specific content are governed by the license selected for the paper/preprint submission and are not automatically covered by the repository code license unless explicitly stated.
 
 ---
 
