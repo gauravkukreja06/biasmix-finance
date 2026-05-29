@@ -1,174 +1,216 @@
-# BiasMix-Finance: Post-Generation KYC Guardrails for LLM Portfolio Advice — Supplement
+# BiasMix-Finance: Post-Generation KYC Guardrails for LLM Portfolio Advice
 
-This supplement contains the code notebooks and data artifacts needed to reproduce the **tables/figures reported in the paper** and (optionally) re-run the end-to-end pipeline including **LLM generation**.
+**Supplementary repository for the paper:** *BiasMix-Finance: Post-Generation KYC Guardrails for LLM Portfolio Advice*
 
-There are **two reproducibility modes**:
+BiasMix-Finance is a compact benchmark and reproducibility package for studying how large language models generate ETF portfolio allocations under biased prompts, and how deterministic post-generation guardrails can verify and repair those allocations against KYC-style numeric constraints.
 
-1. **Exact reproduction (recommended for reviewers)**: Reproduce all reported tables/figures **exactly** using the provided `results.jsonl` (no LLM calls).
-2. **End-to-end rerun (optional)**: Re-run scenario prompting + parsing + projection by calling an LLM (requires API keys). Results may differ due to LLM nondeterminism.
+This repository contains the dataset, prompts, caps, code notebooks, and canonical outputs needed to reproduce the paper's tables and figures.
 
----
-
-## Contents
-
-- `notebooks/BiasMix_Finance_Post_Generation_KYC_Guardrails.ipynb` — main reproducibility notebook
-- `notebooks/eda_universe_diagnostics.ipynb` — optional EDA notebook (universe/Σ diagnostics)
-- `data/scenarios_full.jsonl` — scenario definitions
-- `data/assets.csv` — ETF universe metadata
-- `data/sigma.npy` — covariance matrix Σ
-- `outputs/results.jsonl` — **canonical run outputs used for paper evaluation** (first-pass + final weights, parse failures, metrics)
-
-> **Note:** Exact reproduction of paper numbers requires `outputs/results.jsonl`. End-to-end rerun requires LLM access and will not necessarily match the paper’s numbers exactly.
+> **Note:** This project is for research and reproducibility only. It is not financial advice, investment advice, or a production robo-advisor.
 
 ---
 
-## Quickstart (Google Colab)
+## Overview
 
-1. Open `notebooks/BiasMix_Finance_Post_Generation_KYC_Guardrails.ipynb` in Colab.
-2. Upload the required files into the Colab runtime (or mount Google Drive and update paths):
+LLMs can produce plausible-looking portfolio recommendations that silently violate constraints such as risk, fee, diversification, single-asset exposure, or sector concentration. BiasMix-Finance treats the LLM output as an **auditable draft**, not a final action.
+
+The pipeline:
+
+1. Composes a scenario using an investor risk profile, KYC-style caps, an ETF universe, and a bias-inducing prompt.
+2. Asks an LLM to emit portfolio weights under a strict JSON schema.
+3. Validates the draft allocation against hard numeric caps.
+4. Repairs violating allocations using a nearest-feasible convex QCQP projection.
+5. Logs before/after metrics so the recommendation can be audited.
+
+![BiasMix-Finance pipeline](assets/biasmix_pipeline.png)
+
+---
+
+## Key results from the paper
+
+Across three LLM backends and three prompting modes, first-pass generations frequently violated at least one cap on the held-out test split. Prompting strategies such as critique and self-consistency reduced some violations but did not guarantee compliance.
+
+| Finding | Result |
+|---|---:|
+| Test first-pass any-cap violation range | 47.6% - 85.7% |
+| Pooled first-pass violation rate | 67.2% |
+| Post-projection final feasibility | 100% in reported runs |
+| Pooled median correction distance | D = 0.066 |
+| Parse failures on held-out test | 0 with strict JSON + retries |
+
+The main takeaway is that **prompting alone is not reliable enough for hard numeric constraints**, while deterministic verify-and-repair can enforce final feasibility when the cap set is feasible.
+
+---
+
+## What is included
+
+```text
+notebooks/
+  BiasMix_Finance_Post_Generation_KYC_Guardrails.ipynb
+  eda_universe_diagnostics.ipynb
+
+data/
+  scenarios_full.jsonl       # 72 BiasMix scenarios across profiles, bias recipes, and seeds
+  assets.csv                 # 16-ETF universe metadata
+  sigma.npy                  # covariance matrix used for risk calculation/projection
+
+outputs/
+  results.jsonl              # canonical paper run outputs for exact reproduction
+```
+
+The 16-ETF universe used in the paper is:
+
+```text
+SPY, VEA, VWO, VGT, XLE, XLF, XLV, XLY, XLP, XLI, XLRE, IWM, AGG, LQD, IEF, GLD
+```
+
+The scenario suite combines:
+
+- 3 risk profiles: Conservative, Moderate, Aggressive
+- 8 bias recipes: anchor tech, default inertia, EM tilt, FOMO energy, fee neglect, gold craze, small-cap hype, US-only bias
+- 3 random seeds per profile/bias cell
+- 72 total scenarios split into train/dev/test
+
+---
+
+## Reproducibility modes
+
+There are two ways to use this repository.
+
+### Mode A: Exact reproduction, no LLM calls
+
+Use this mode to reproduce the paper's reported metrics, tables, and figures from the canonical `outputs/results.jsonl` file.
+
+Recommended for reviewers and readers who want deterministic reproduction.
+
+Steps:
+
+1. Open `notebooks/BiasMix_Finance_Post_Generation_KYC_Guardrails.ipynb` in Google Colab or Jupyter.
+2. Make sure these files are available to the notebook:
    - `data/scenarios_full.jsonl`
-   - `outputs/results.jsonl` *(for exact reproduction)*
-   - `data/assets.csv`, `data/sigma.npy` *(needed for projection / ablations / some plots)*
+   - `data/assets.csv`
+   - `data/sigma.npy`
+   - `outputs/results.jsonl`
+3. Run the notebook sections for loading data, statistical evaluation, and figure/table generation.
 
-In the notebook, the default expectation is that these files appear under `/content/` (you can edit the “Load Data” cell to change paths).
+Typical outputs:
 
----
+```text
+tables/violation_overall.csv
+tables/violations_summary.csv
+tables/distance_D_mean_CI.csv
+tables/delta_sigma_CI.csv
+tables/delta_waer_CI.csv
+tables/delta_hhi_CI.csv
+tables/wilcoxon_model_pairs_fdr.csv
+```
 
-# A) Exact reproduction (NO LLM calls) — recommended for reviewers
+Main generated figures include:
 
-This path reproduces the **paper’s reported metrics/tables/figures exactly**, using the provided `outputs/results.jsonl`.
+```text
+violation_rate.pdf
+correction_distance.pdf
+violation_severity.pdf
+```
 
-### Run “Load Data”
-Run the notebook section:
+### Mode B: End-to-end rerun with LLM calls
 
-- **Load Data** (Cells **2–4**)
+Use this mode to rerun prompting, parsing, validation, projection, and evaluation.
 
-This sets up paths and loads scenario metadata and artifacts.
+This requires API keys. Results may differ from the paper because LLM generation is stochastic and provider model versions may change.
 
-### A2 — Run evaluation and statistics
-Run the notebook section:
+Supported provider setup in the notebook:
 
-- **Statistical Framework** (Cells **38–55**)
+```text
+GOOGLE_API_KEY              # Gemini backend
+OPENAI_API_KEY              # OpenAI backend
+OPENAI_COMPAT_API_KEY       # OpenAI-compatible hosted model backend
+OPENAI_COMPAT_BASE_URL      # OpenAI-compatible hosted model endpoint
+```
 
-This will:
-- load `results.jsonl`
-- compute violation rates and summaries
-- compute **Wilson 95% CIs** for binomial rates
-- compute distance metrics (e.g., correction distance **D**) with **bootstrap 95% CIs**
-- run paired **Wilcoxon** tests and apply **BH-FDR**
-- write paper tables as CSV into:
-  - `/content/tables/`
+The full grid evaluates:
 
-**Generated CSVs (typical):**
-- `tables/violation_overall.csv`
-- `tables/violations_summary.csv`
-- `tables/distance_D_mean_CI.csv`
-- `tables/delta_sigma_CI.csv`
-- `tables/delta_waer_CI.csv`
-- `tables/delta_hhi_CI.csv`
-- `tables/wilcoxon_model_pairs_fdr.csv`
-
-**Note about Cell 41:** If the cell is written as `pip install ...` without `!`, Colab may error. Change it to `!pip install ...` and re-run that cell.
-
-### A3 — Generate paper figures (PDF)
-Run:
-
-- **Cell 60**
-
-This writes the main paper plots (PDF) and may download them via `google.colab.files.download(...)`:
-- `violation_rate.pdf`
-- `correction_distance.pdf`
-- `violation_severity.pdf`
-
-If you do not want downloads, comment out the `files.download(...)` lines.
-
-### A4 — Optional paper-support analyses
-These are not required for the main tables/figures, but are included for completeness.
-
-- **Stage breakdown summaries** (Cell **61**)
-- **Sector-level before/after plots** (Cells **62–63**)  
-  Outputs in `/content/figs/` (requires sector sums in `results.jsonl`)
-- **Solver ablation table on test split** (Cells **64–66**)  
-  Writes `/content/ablation_solver_table.csv` (Cell **65** installs solver deps: `!pip -q install cvxpy osqp`)
+```text
+models = primary, secondary_closed, secondary_open
+modes  = direct, critique, self-consistency
+splits = train, dev, test
+```
 
 ---
 
-# B) End-to-end rerun (WITH LLM calls) — optional
+## Method summary
 
-This reruns prompting + parsing + projection to produce a new `results.jsonl`.
+Given a draft portfolio `w0`, the guardrail checks:
 
-**LLM nondeterminism:** Exact numbers may differ from the paper, even with the same prompts/config.
+- nonnegative weights
+- weights sum to 1
+- annualized volatility cap
+- weighted-average expense ratio cap
+- HHI concentration cap
+- maximum single-asset weight
+- maximum sector weight
 
-## B1 — Provide API keys (Colab Secrets)
-The notebook reads API keys from **Colab Secrets** (`google.colab.userdata.get(...)`).
+If a draft violates any cap, the repair layer solves a nearest-feasible projection:
 
-In Colab:
-- Click the **key icon (Secrets)** in the left sidebar
-- Add secrets as needed:
+```text
+minimize    ||w - w0||^2 + lambda * w^T Sigma w
+subject to  w is a valid portfolio and satisfies all caps
+```
 
-### Gemini (primary)
-- `GOOGLE_API_KEY`
-
-### OpenAI (secondary closed)
-- `OPENAI_API_KEY`
-
-### OpenAI-compatible provider (secondary open; e.g., hosted Llama)
-- `OPENAI_COMPAT_API_KEY`
-- `OPENAI_COMPAT_BASE_URL`
-
-Reviewers can also modify the model/provider configuration in:
-- **Model configuration** (Cell **22**) — edit the `MODELS` dict to use alternative providers/models.
-
-## B2 — Run pipeline to generate a fresh results file
-Run these sections in order:
-
-1. **Load Data** (Cells **2–4**)
-2. **Helper Functions** (Cell **6**)
-3. **Validator** (Cell **8**)
-4. **Nearest-feasible projector** (Cell **11**)
-5. *(Optional)* **Smoke test** (Cell **14**)
-6. **LLM Interface & Runner** (Cells **16–35**)
-
-### Full grid run (expensive)
-- **Cell 35** runs the full grid:
-  - `batch_run_grid(split="train")`
-  - `batch_run_grid(split="dev")`
-  - `batch_run_grid(split="test")`
-
-This sweeps:
-- `model_keys=("primary","secondary_closed","secondary_open")`
-- `modes=("direct","critique","sc")`
-
-## B3 — Evaluate the new run
-After generating `results.jsonl`, run the same evaluation cells as in Mode A:
-
-- **Statistical Framework** (Cells **38–55**) → tables to `/content/tables/`
-- **Cell 60** → figures as PDFs
+The correction distance `D = ||w* - w0||2` is used as an audit signal: small values indicate a light nudge, while larger values indicate stronger constraint-forced rebalancing.
 
 ---
 
-## Output locations
+## Suggested repository usage
 
-- Tables (CSV): `/content/tables/`
-- Main figures (PDF): written in the notebook working directory (typically `/content/`)
-- Sector plots (optional): `/content/figs/`
-- Ablation table (optional): `/content/ablation_solver_table.csv`
+For exact reproduction:
+
+```bash
+# Clone the repository
+git clone https://github.com/gauravkukreja06/biasmix-finance.git
+cd biasmix-finance
+
+# Open the notebook in Jupyter or Colab
+# Then run the exact reproduction path using outputs/results.jsonl
+```
+
+For local execution, install the packages used by the notebook as needed:
+
+```bash
+pip install numpy pandas scipy matplotlib cvxpy osqp scs
+```
+
+Additional provider SDKs may be required only for Mode B, depending on which LLM backends you enable.
 
 ---
 
-## Reproducibility statement
+## Repository status
 
-- **Deterministic** given `results.jsonl`: parsing → constraint checks → projection verification → metrics → CIs/tests → plots.
-- **Stochastic** when re-running LLM calls: model sampling and provider/version changes can affect outputs.
-
-To reproduce the paper’s reported numbers exactly, use **Mode A** with the provided `outputs/results.jsonl`.
+This repository is intended to support reproducibility for the paper. The canonical paper numbers should be reproduced using `outputs/results.jsonl`. Fresh end-to-end LLM runs are useful for extension experiments, but they should not be expected to exactly match the paper tables.
 
 ---
 
-## Contact / Notes
+## Citation
 
-If any cell numbers shift due to notebook edits, use the **section headings** referenced above:
-- “Load Data”
-- “Statistical Framework”
-- “LLM Interface & Runner”
-- “Solver ablation table on test split”
+If you use this repository, please cite the paper. Update the entry below once the arXiv or proceedings version is available.
+
+```bibtex
+@misc{kukreja2026biasmixfinance,
+  title        = {BiasMix-Finance: Post-Generation KYC Guardrails for LLM Portfolio Advice},
+  author       = {Kukreja, Gaurav and Kukreja, Parul and Abraar, Mohammed and Dandekar, Raj and Dandekar, Rajat and Panat, Sreedath},
+  year         = {2026},
+  note         = {Code and data available at https://github.com/gauravkukreja06/biasmix-finance}
+}
+```
+
+---
+
+## License
+
+Add the repository license here. If the paper is released under a separate license, mention that separately.
+
+---
+
+## Contact
+
+For questions about the reproducibility package, please open a GitHub issue or contact the authors through the information listed in the paper.
