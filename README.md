@@ -24,6 +24,7 @@ The pipeline:
 
 ![BiasMix-Finance pipeline](assets/biasmix_pipeline.png)
 
+*Figure: BiasMix-Finance post-generation guardrail pipeline. © 2026 BiasMix-Finance Authors.*
 ---
 
 ## Key results from the paper
