@@ -9,6 +9,11 @@ This repository contains the dataset, prompts, caps, code notebooks, and canonic
 > **Note:** This project is for research and reproducibility only. It is not financial advice, investment advice, or a production robo-advisor.
 
 ---
+## Article
+
+A public summary of the core idea is available here:
+
+- [Why LLM Portfolio Advice Needs Post-Generation Guardrails](https://medium.com/@gauravkukreja06_87034/why-llm-portfolio-advice-needs-post-generation-guardrails-800179e1bf4c?postPublishedType=initial)
 
 ## Overview
 
