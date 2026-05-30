@@ -11,9 +11,10 @@ This repository contains the dataset, prompts, caps, code notebooks, and canonic
 ---
 ## Article
 
-A public summary of the core idea is available here:
+Public summaries of the core idea are available here:
 
-- [Why LLM Portfolio Advice Needs Post-Generation Guardrails](https://medium.com/@gauravkukreja06_87034/why-llm-portfolio-advice-needs-post-generation-guardrails-800179e1bf4c?postPublishedType=initial)
+- [Why LLM Portfolio Advice Needs Post-Generation Guardrails - Medium](https://medium.com/@gauravkukreja06_87034/why-llm-portfolio-advice-needs-post-generation-guardrails-800179e1bf4c?postPublishedType=initial)
+- [Why LLM Portfolio Advice Needs Post-Generation Guardrails - LinkedIn](https://www.linkedin.com/pulse/why-llm-portfolio-advice-needs-post-generation-gaurav-kukreja-kduof)
 
 ## Overview
 
